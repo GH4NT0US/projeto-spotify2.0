@@ -1,8 +1,8 @@
 import React from 'react'
 import Main from '../components/Main'
 
-const home = () => {
+const Home = () => {
 return <Main/>
 }
 
-export default home
+export default Home

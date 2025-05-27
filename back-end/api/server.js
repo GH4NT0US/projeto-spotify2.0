@@ -3,22 +3,39 @@ import cors from "cors";
 import { db } from "./connect.js";
 
 const app = express();
-const PORT = 3001
+const PORT = 3001;
 
+// Habilita CORS para permitir requisições de outros domínios
 app.use(cors());
 
-app.get('/', (request, response) => {
-    response.send('Olá Mundo!')
-})
+// Rota principal
+app.get('/', (req, res) => {
+    res.send('Olá Mundo!');
+});
 
-app.get('/artists', async (request, response) => {
-    response.send(await db.collection('artists').find({}).toArray())
-})
+// Rota para buscar todos os artistas
+app.get('/artists', async (req, res) => {
+    try {
+        const artists = await db.collection('artists').find({}).toArray();
+        res.send(artists);
+    } catch (error) {
+        console.error('Erro ao buscar artistas:', error);
+        res.status(500).send({ error: 'Erro ao buscar artistas' });
+    }
+});
 
-app.get('/songs', async (request, response) => {
-    response.send(await db.collection('songs').find({}).toArray())
-})
+// Rota para buscar todas as músicas
+app.get('/songs', async (req, res) => {
+    try {
+        const songs = await db.collection('songs').find({}).toArray();
+        res.send(songs);
+    } catch (error) {
+        console.error('Erro ao buscar músicas:', error);
+        res.status(500).send({ error: 'Erro ao buscar músicas' });
+    }
+});
 
-app.listen(PORT, () =>{
-    
-})
+// Inicializa o servidor
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
